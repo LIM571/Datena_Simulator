@@ -6,17 +6,20 @@
     <title>Jogo de Nave</title>
     <style>
         body {
-            background-color: white; /* Fundo branco */
+            background: linear-gradient(to bottom, #001f3f, #007BFF);
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Remove barras de rolagem */
+            overflow: hidden;
         }
 
         canvas {
             background-color: black;
             display: block;
-            width: 100vw; /* Largura do canvas como 100% da largura da tela */
-            height: 75vh; /* Altura do canvas como 75% da altura da tela */
+            width: 100%; /* Largura do canvas como 100% */
+            height: auto; /* Altura automática para manter proporção */
+            max-width: 800px; /* Largura máxima */
+            max-height: 600px; /* Altura máxima */
+            margin: auto; /* Centraliza o canvas */
         }
 
         .controls {
@@ -30,10 +33,24 @@
             font-size: 20px;
             margin: 5px;
             cursor: pointer;
-            background-color: #007BFF;
+            background-color: #28a745;
             color: white;
             border: none;
             border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
     </style>
 </head>
@@ -44,6 +61,7 @@
         <button id="downButton">↓</button>
         <button id="shootButton">Atirar</button>
     </div>
+    <div class="score" id="scoreDisplay">Pontuação: 0 | Nível: 1</div>
     <script src="game.js"></script>
 </body>
 </html>

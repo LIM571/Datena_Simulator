@@ -1,22 +1,22 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+const scoreDisplay = document.getElementById('scoreDisplay');
 
-// Ajusta o tamanho do canvas
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight * 0.75; // 75% da altura da tela
+// Proporções do canvas
+const aspectRatio = 800 / 600; // Proporção 4:3
 
 // Variáveis do jogo
 const shipImage = new Image();
-shipImage.src = 'img1.png'; // Substitua pelo caminho da sua imagem de nave
+shipImage.src = 'img1.png';
 
 const bulletImage = new Image();
-bulletImage.src = 'img2.png'; // Substitua pelo caminho da sua imagem de tiro (projétil maior)
+bulletImage.src = 'img2.png';
 
 const enemyImage = new Image();
-enemyImage.src = 'img3.png'; // Substitua pelo caminho da sua imagem de inimigo
+enemyImage.src = 'img3.png';
 
 const powerUpImage = new Image();
-powerUpImage.src = 'img4.png'; // Substitua pelo caminho da imagem de power-up
+powerUpImage.src = 'img4.png';
 
 const ship = {
     x: 50,
@@ -38,26 +38,33 @@ let upgrades = 0;
 
 // Função para redimensionar o canvas
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight * 0.75; // 75% da altura da tela
+    const width = window.innerWidth;
+    const height = width / aspectRatio;
+    if (height > window.innerHeight) {
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerHeight * aspectRatio;
+    } else {
+        canvas.width = width;
+        canvas.height = height;
+    }
     ship.y = canvas.height / 2 - 25; // Reposiciona a nave ao redimensionar
 }
 
-// Atualiza o canvas ao redimensionar a tela
 window.addEventListener('resize', resizeCanvas);
+resizeCanvas(); // Inicializa o tamanho do canvas
 
-// Controles da nave com teclas
-document.addEventListener('keydown', function (event) {
+// Controles da nave
+document.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowUp' && ship.y > 0) {
         ship.y -= ship.speed;
     } else if (event.key === 'ArrowDown' && ship.y < canvas.height - ship.height) {
         ship.y += ship.speed;
-    } else if (event.key === ' ') {
+    } else if (event.key === ' ') { // Espaço atira
         shoot();
     }
 });
 
-// Funções para controlar a nave pelos botões
+// Funções de controle por botão
 document.getElementById('upButton').addEventListener('click', () => {
     if (ship.y > 0) {
         ship.y -= ship.speed;
@@ -70,7 +77,9 @@ document.getElementById('downButton').addEventListener('click', () => {
     }
 });
 
-document.getElementById('shootButton').addEventListener('click', shoot);
+document.getElementById('shootButton').addEventListener('click', () => {
+    shoot();
+});
 
 function shoot() {
     const now = Date.now();
@@ -84,18 +93,50 @@ function shoot() {
 function generateEnemies() {
     const yPosition = Math.random() * (canvas.height - 50);
     const isPowerUp = Math.random() < 0.01; // 1% de chance para aparecer power-up
-    
-    if (isPowerUp) {
-        enemies.push({ x: canvas.width, y: yPosition, width: 50, height: 50, type: 'power-up' });
-    } else {
-        enemies.push({ x: canvas.width, y: yPosition, width: 50, height: 50, type: 'enemy' });
+    enemies.push({
+        x: canvas.width,
+        y: yPosition,
+        width: 50,
+        height: 50,
+        type: isPowerUp ? 'power-up' : 'enemy'
+    });
+}
+
+// Função para aplicar upgrades
+function applyUpgrades() {
+    if (upgrades >= 3) {
+        ship.speed += 1; // Aumenta a velocidade da nave
+        ship.fireRate -= 50; // Aumenta a taxa de tiro
+        upgrades = 0; // Reseta os upgrades
+    }
+}
+
+// Função para aumentar velocidade vertical da nave
+function increaseYSpeed() {
+    ship.speed += 2; // Aumenta a velocidade Y da nave
+}
+
+// Função para avançar de nível
+function nextLevel() {
+    level++;
+    if (level === 2) {
+        enemiesToNextLevel = 25;
+    } else if (level === 3) {
+        enemiesToNextLevel = 50;
+    } else if (level === 4) {
+        enemiesToNextLevel = 100;
+    }
+    enemySpeed += 0.2; // Aumenta a velocidade dos inimigos lentamente
+    if (level % 3 === 0) { // A cada 3 níveis
+        upgrades++; // Ganha um upgrade
+        applyUpgrades();
     }
 }
 
 // Função principal do jogo (loop)
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     // Fundo branco
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -119,11 +160,7 @@ function gameLoop() {
         if (enemy.x < 0) {
             enemies.splice(index, 1); // Remove o inimigo se sair da tela
         } else {
-            if (enemy.type === 'power-up') {
-                ctx.drawImage(powerUpImage, enemy.x, enemy.y, enemy.width, enemy.height); // Desenha power-up
-            } else {
-                ctx.drawImage(enemyImage, enemy.x, enemy.y, enemy.width, enemy.height); // Desenha inimigo
-            }
+            ctx.drawImage(enemy.type === 'power-up' ? powerUpImage : enemyImage, enemy.x, enemy.y, enemy.width, enemy.height);
         }
 
         // Checa colisão entre tiro e inimigo/power-up
@@ -168,11 +205,8 @@ function gameLoop() {
         }
     });
 
-    // Exibe a pontuação e nível
-    ctx.fillStyle = 'black';
-    ctx.font = '20px Arial';
-    ctx.fillText('Pontuação: ' + score, 10, 20);
-    ctx.fillText('Nível: ' + level, 10, 40);
+    // Atualiza a pontuação na tela
+    updateScore();
 
     // Aumenta de nível conforme a quantidade de inimigos derrotados
     if (score >= enemiesToNextLevel) {
@@ -180,6 +214,11 @@ function gameLoop() {
     }
 
     requestAnimationFrame(gameLoop);
+}
+
+// Função para atualizar a pontuação na tela
+function updateScore() {
+    scoreDisplay.innerText = 'Pontuação: ' + score + ' | Nível: ' + level;
 }
 
 // Gera inimigos a cada 1.5 segundos (diminui com níveis)
