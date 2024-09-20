@@ -6,23 +6,44 @@
     <title>Jogo de Nave</title>
     <style>
         body {
-            background-image: url('fundo.png');
-            background-size: cover; /* Ajusta o tamanho da imagem para cobrir todo o body */
-            background-repeat: no-repeat; /* Evita repetição da imagem */
-            background-position: center; /* Centraliza a imagem de fundo */
+            background-color: white; /* Fundo branco */
             margin: 0;
             padding: 0;
+            overflow: hidden; /* Remove barras de rolagem */
         }
 
         canvas {
             background-color: black;
             display: block;
-            margin: 0 auto;
+            width: 100vw; /* Largura do canvas como 100% da largura da tela */
+            height: 75vh; /* Altura do canvas como 75% da altura da tela */
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 20px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <canvas id="gameCanvas"></canvas>
+    <div class="controls">
+        <button id="upButton">↑</button>
+        <button id="downButton">↓</button>
+        <button id="shootButton">Atirar</button>
+    </div>
     <script src="game.js"></script>
 </body>
 </html>
