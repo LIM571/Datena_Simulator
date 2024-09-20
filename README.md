@@ -2,20 +2,18 @@
 
 ## Descrição
 
-Você já sonhou em ser o Datena nas eleições para a prefeitura de São Paulo em 2024? 🗳️💥 Agora é a sua chance! No **Datena Simulator**, você se torna o icônico apresentador, arremessando cadeiras em Pablo Marçal durante uma cobertura eleitoral cheia de emoção! 😄🪑
+Você já imaginou ser o lendário Datena nas eleições para a prefeitura de São Paulo em 2024? 🗳️💥 Agora é a sua chance! No **Datena Simulator**, você encarna o icônico apresentador de TV e participa de uma cobertura eleitoral explosiva, onde cadeiras voam e risadas são garantidas! 😄🪑
 
-Prepare-se para uma jogabilidade frenética e cheia de humor, onde você pode soltar toda a sua criatividade enquanto critica os eventos políticos de forma divertida! 🎉
+Entre na pele de Datena, arremessando cadeiras em Pablo Marçal enquanto você navega por momentos hilários dessa corrida eleitoral cheia de drama! Seja criativo e libere sua crítica política de uma forma totalmente inusitada! 🎉😎
+
+**Está pronto para essa aventura?** Acesse agora e comece a jogar: [Clique aqui!](https://lim571.github.io/Datena_Simulator/) 🔥
 
 ## Como Jogar
 
-- **Objetivo**: Arremesse o maior número possível de cadeiras em Pablo Marçal antes que o tempo acabe! ⏳
+- **Objetivo**: Lance o maior número possível de cadeiras em Pablo Marçal antes que o tempo acabe! ⏳
 - **Controles**:
-  - **Espaço**: Arremessar cadeira
-  - **Seta para cima**: Aumentar a força do arremesso
-  - **Seta para baixo**: Diminuir a força do arremesso
+  - **Espaço**: Arremessar cadeira 🪑
+  - **Seta para cima**: Mover para cima ⬆️
+  - **Seta para baixo**: Mover para baixo ⬇️
 
-## Instalação
-
-1. Clone este repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/datena-simulator.git
+Venha e divirta-se com essa sátira política eletrizante! 😆
